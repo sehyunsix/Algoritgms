@@ -19,17 +19,11 @@ def matrix_multiply(a, b):
 
     return result
 
-number_list =[]
 n=int(input())
 for i in range(n):
   a,b =input().split()
   a = int(a)
   b = int(b)
-  number_list.append((a,b))
-
-for numbers in number_list:
-  a = numbers[0]
-  b= numbers[1]
   if a > b:
     big,small= a,b
   else:
@@ -49,6 +43,15 @@ for numbers in number_list:
   if gcd != 1:
     print("IMPOSSIBLE")
   else:
+    # result = np.array([[1,0],[0,1]])
+    # if len(temp)>0:
+    #   for t in temp[:-1]:
+    #     result = np.array([[0 ,1],[1,-1*t[0]]])@result
+    #   result= np.dot(np.array([1,-1*temp[-1][0]]),result)
+    # else:
+    #   result = a+1
+
+    # print(result)
     if len(temp) > 0:
       result = [[1 ,0],[0,1]]
       for t in temp[:-1]:
@@ -61,23 +64,14 @@ for numbers in number_list:
       for row in result:
         if big == b:
           if result[0][0] <0:
-            # print(result[0][0]+a)
-            final = result[0][0]+a
+            print(result[0][0]+b)
           else:
-            # print(result[0][0])
-            final = result[0][0]
+            print(result[0][0])
         else:
           if result[0][1] <0:
-            # print(result[0][1]+a)
-            final = result[0][1]+a
+            print(result[0][1]+a)
           else:
-            # print(result[0][1])
-            final = result[0][1]
+            print(result[0][1])
 
     else:
-      final = a+1
-
-    if final >pow(10,9):
-      print("IMPOSSIBLE")
-    else:
-      print(final)
+      print(a+1)
