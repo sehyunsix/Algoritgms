@@ -1,5 +1,6 @@
 
 import numpy as np
+import math
 
 maps = np.array([[0,0,0,0,0],[0,1,1,1,0],[0,0,1,0,0],[0,0,1,1,2],[0,0,0,0,0]])
 visited = np.zeros(maps.shape,dtype=np.int32)
