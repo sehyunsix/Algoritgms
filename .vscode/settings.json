@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "*.atml": "html",
+    "*.fish": "powershell",
+    "*.js": "javascript",
+    "*.mdx": "markdown",
+    ".babelrc": "json",
+    ".huskyrc": "json",
+    "passing_test.C": "cpp",
+    "limits": "cpp",
+    "algorithm": "cpp"
+  }
+}
