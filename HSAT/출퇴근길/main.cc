@@ -10,31 +10,26 @@
 			bool is_sroop_list[200001]={0,};
 			bool is_troop_list[200001]={0,};
 			int order_list[200001]={0,};
-			int child_idx_list[200001]={0,};
 			vector<int> edge_list[200001];
 			int order =0;
 			int level=0;
 
 
 			bool dfs(int start, bool* is_roop_list) {
-				stack<int> st;  // <노드, 자식 인덱스>
-				st.push(start);
+				stack<pair<int, int>> st;  // <노드, 자식 인덱스>
+				st.push({start, 0});
 				while (!st.empty()){
 
-					int current = st.top();
-					int child_idx=child_idx_list[current];
+					auto [current, child_idx] = st.top();
+					#ifdef DEBUG
+					cout << "current : " << current << "child_idx : "<< child_idx<< endl;
+					#endif
 
 
 					if (order_list[current] == 0) {
 						order++;
 						order_list[current] = order;
 					}
-					#ifdef DEBUG
-					cout << "current : " << current << "child_idx : "<< child_idx<< "order "<< order_list[current]<< endl;
-					#endif
-					// else{
-					// 	order--;
-					// }
 
 					// 현재 노드의 모든 자식을 처리했다면
 					if (child_idx >= edge_list[current].size()) {
@@ -44,7 +39,6 @@
 						}
 
 					st.pop();
-
 					visit_list[current] = false;
 					order_list[current]=0;
 					order--;
@@ -56,15 +50,34 @@
 
 						if (is_roop_list[next]) {
 							is_roop_list[current] = true;
+							st.top().second++;
 						}
-						else if (!visit_list[next] | (order_list[current] > order_list[next])) {
+						else if (!visit_list[next]) {
 						visit_list[next] = true;
-						st.push(next);
+
 						#ifdef DEBUG
 						cout << "push : " << next << endl;
 						#endif
+
+						st.top().second++;  // 부모의 다음 자식으로 이동
+
+						st.push({next, 0});
 						}
-						child_idx_list[current] += 1;
+						else if (order_list[current] > order_list[next]) {
+
+						#ifdef DEBUG
+						cout << "push : " << next << endl;
+						#endif
+
+						st.top().second++;  // 부모의 다음 자식으로 이동
+						st.push({next, 0});
+						}
+						else{
+
+							st.top().second++;  // 부모의 다음 자식으로 이동
+
+						}
+
 					}
 				}
 
@@ -92,7 +105,6 @@
 					order_list[i]=0;
 					visit_list[i]=0;
 					is_sroop_list[i]=0;
-					child_idx_list[i]=0;
 			}
 			order_list[S]=1;
 			is_sroop_list[S] =true;
@@ -113,7 +125,6 @@
 					order_list[i]=0;
 					visit_list[i]=0;
 					is_troop_list[i]=0;
-					child_idx_list[i]=0;
 			}
 			order=1;
 			is_troop_list[T]=true;
