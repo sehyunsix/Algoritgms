@@ -33,11 +33,8 @@ ll find_sum(ll num ){
       return 0;
     }
     int max_k =0;
-    while(power_10(max_k)<num){
+    while(power_10(max_k)<=num){
       max_k++;
-    }
-    if(max_k<=1){
-      return local_sum[num];
     }
 
     ll result =0;
