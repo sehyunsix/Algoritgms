@@ -1,47 +1,59 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-#include <algorithm>
-
-#define MAX 300001
+#include<iostream>
+#include<algorithm>
+#include<vector>
+#include<memory.h>
+#include<queue>
+#include <string>
+#include<math.h>
+#define ll long long
+#define P 1000000007
+#define endl "\n"
 using namespace std;
-
-int N; // 보석 수
-int K; // 가방수
-
-
-pair<int, int> v_jewerly[MAX];
-int v_bag[MAX];
-priority_queue<int, vector<int>, less<int>> pq;
-
-
-long long solve() {
-    sort(v_jewerly, v_jewerly+N);
-    sort(v_bag, v_bag+K);
-
-    int idx = 0;
-    long long sum = 0;
-
-    for (int i = 0; i < K; i++) {
-        while (idx < N && v_bag[i] >= v_jewerly[idx].first) {
-            pq.push(v_jewerly[idx].second);
-            idx++;
-        }
-        if (!pq.empty()) {
-            sum += pq.top();
-            pq.pop();
-        }
-    }
-    return sum;
+int N, K;
+bool cmp(const pair<int, int> a, const pair<int, int> b) {
+  return a.first < b.first;
 }
 
 int main() {
-    cin >> N >> K;
-    for (int i = 0; i < N; ++i) {
-        cin >> v_jewerly[i].first >> v_jewerly[i].second;
-    }
-    for (int i = 0; i < K; ++i) {
-        cin >> v_bag[i];
-    }
-    cout << solve();
+cin.tie(0);
+cout.tie(0);
+ios_base::sync_with_stdio(false);
+cin >> N >> K;
+
+
+vector<pair<int, int>> M;
+for (int i = 0; i < N; i++) {
+  int m ,v;
+  cin >> m >> v;
+  M.push_back({ m,v });
+}
+
+vector<int> C;
+for (int i = 0; i < K; i++) {
+  int c;
+  cin >>c ;
+  C.push_back(c);
+}
+
+
+sort(M.begin(), M.end(), cmp);
+sort(C.begin(), C.end());
+ll answer = 0;
+priority_queue<int, vector<int>, less<int>>  q;
+int m_idx = 0;
+for (int i = 0; i < K; i++) {
+
+  while (M[m_idx].first <= C[i] && m_idx <N) {
+    q.push(M[m_idx].second);
+    m_idx++;
+  }
+  if (!q.empty()) {
+    answer += q.top();
+    q.pop();
+  }
+}
+
+cout << answer << endl;
+
+return 0;
 }
