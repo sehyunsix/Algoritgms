@@ -43,7 +43,7 @@ if (!plus_array.empty()) {
   if(plus_array.size() >=2){
     if (min >= plus_array[1] + plus_array[0]) {
       min = plus_array[1] + plus_array[0];
-      sol.first = -plus_array[0];
+      sol.first = plus_array[0];
       sol.second = plus_array[1];
     }
   }
@@ -56,7 +56,7 @@ sort(minus_array.begin(), minus_array.end()  );
   if(minus_array.size() >=2){
     if (min >= minus_array[1] + minus_array[0]) {
       min = minus_array[1] + minus_array[0];
-      sol.first = minus_array[1];
+      sol.first = -minus_array[1];
       sol.second = -minus_array[0];
     }
   }
@@ -67,12 +67,12 @@ sort(minus_array.begin(), minus_array.end()  );
 
 
 if (plus_array.empty()) {
-  cout << -minus_array[1] <<" "<< -minus_array[0] << endl;
+  cout << sol.first <<" "<< sol.second << endl;
   return 0;
 }
 
 if (minus_array.empty()) {
-  cout << plus_array[0] <<" "<< plus_array[1] << endl;
+  cout << sol.first <<" "<< sol.second << endl;
   return 0;
 }
 
@@ -84,7 +84,7 @@ for (int i = 0; i < minus_array.size();i++) {
   if (lb == -1) {
     if(min>=abs(plus_array.back()-  minus_array[i])){
       min = abs(plus_array.back() - minus_array[i]);
-      sol.first = minus_array[i];
+      sol.first = -minus_array[i];
       sol.second = plus_array.back();
     }
   }
@@ -92,7 +92,7 @@ for (int i = 0; i < minus_array.size();i++) {
     if (lb == 0) {
       if (min >= abs(plus_array[0] - minus_array[i])) {
         min = abs(plus_array[0] - minus_array[i]);
-        sol.first = minus_array[i];
+        sol.first = -minus_array[i];
         sol.second = plus_array[0];
       }
     }
@@ -100,13 +100,13 @@ for (int i = 0; i < minus_array.size();i++) {
       if(abs(minus_array[i] -plus_array[lb]) < abs(minus_array[i] -plus_array[lb-1])){
         if (min >= abs(plus_array[lb] - minus_array[i])) {
         min = abs(plus_array[lb] - minus_array[i]);
-        sol.first = minus_array[i];
+        sol.first = -minus_array[i];
         sol.second = plus_array[lb];
       }
       }else{
         if (min >= abs(plus_array[lb-1] - minus_array[i])) {
           min = abs(plus_array[lb-1] - minus_array[i]);
-          sol.first = minus_array[i];
+          sol.first = -minus_array[i];
           sol.second = plus_array[lb-1];
         }
 
@@ -120,7 +120,7 @@ for (int i = 0; i < minus_array.size();i++) {
 }
 
 
-cout << -sol.first <<" "<< sol.second << endl;
+cout << sol.first <<" "<< sol.second << endl;
 
 return 0;
 }
@@ -140,7 +140,5 @@ int find_lower_bound(int M ){
     st = mid +1;
    }
   }
-  // cout << res << " " << M << endl;
-
   return res;
 }
