@@ -42,21 +42,18 @@ return 0;
 bool bs(int M){
   int st = 0;
   int en = N-1;
-  bool sol =false;
+  ll sol = INT64_MAX;
   int mid;
   while (st <= en) {
     mid = (st + en) / 2;
     // cout << st <<" "<< en <<" "<< mid <<endl;
     if (v[mid] >= M) {
-      if(v[mid]==M){
-        sol = true;
-      }
+      sol = v[mid];
       en = mid - 1;
     }else{
       st = mid + 1;
     }
   }
-
-  return sol;
+  return sol == M;
 
 }
