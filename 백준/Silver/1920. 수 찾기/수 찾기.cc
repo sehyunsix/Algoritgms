@@ -1,37 +1,62 @@
 #include<iostream>
 #include<algorithm>
-#include <cstdlib>
+#include<vector>
+#include<memory.h>
+#include<queue>
+#include <string>
+#include<math.h>
+#include<map>
+#define ll long long
+#define P 1000000007
+#define endl "\n"
 using namespace std;
-int compare(const void* a, const void* b)
-{
-	const int* x = (int*) a;
-	const int* y = (int*) b;
- 
-	if (*x > *y)
-		return 1;
-	else if (*x < *y)
-		return -1;
- 
-	return 0;
+int N, M;
+bool bs(int M);
+vector<int> v;
+int main() {
+cin.tie(0);
+cout.tie(0);
+ios_base::sync_with_stdio(false);
+
+cin >> N;
+for (int i = 0; i < N;i++) {
+  int tmp;
+  cin >> tmp;
+  v.push_back(tmp);
 }
- 
-int main()
-{   int N,M,num;
-    cin>>N;
-     int m[N];
-    for(int i=0;i<N;i++){
-        scanf("%d",m+i);
-    }
-    cin>>M;
-    qsort(m,N,sizeof(m[0]),compare);
-    while(M--){
-        scanf("%d",&num);
-        printf("%d\n",binary_search(m,m+N,num));
-    }
-    
-    return 0;
-	
-	}
 
-    
+sort(v.begin(), v.end());
 
+cin >> M;
+for( int i =0 ; i<M; i++){
+  int tmp;
+  cin >> tmp;
+  cout << bs(tmp) << endl;
+}
+
+
+
+return 0;
+}
+
+bool bs(int M){
+  int st = 0;
+  int en = N-1;
+  bool sol =false;
+  int mid;
+  while (st <= en) {
+    mid = (st + en) / 2;
+    // cout << st <<" "<< en <<" "<< mid <<endl;
+    if (v[mid] >= M) {
+      if(v[mid]==M){
+        sol = true;
+      }
+      en = mid - 1;
+    }else{
+      st = mid + 1;
+    }
+  }
+
+  return sol;
+
+}
