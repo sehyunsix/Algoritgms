@@ -14,7 +14,7 @@ int N, M;
 vector<int> cost;
 vector<vector<pair<int, int>>> adj;
 vector<bool> visited;
-
+vector<vector<pair<int,int>>> inverseAdj;
 
 typedef struct cmpCost {
 
@@ -25,7 +25,7 @@ typedef struct cmpCost {
 }cmpCost;
 
 
-int dijkstra(int st ,int en){
+int dijkstra(int st, int en, vector<vector<pair<int, int>>>& adj) {
   cost = vector<int>(N + 1, INT32_MAX);
   visited = vector<bool>(N + 1, 0);
   priority_queue<pair<int, int>, vector<pair<int, int>>, cmpCost> q;
@@ -53,18 +53,23 @@ int main() {
   int x;
   cin >> N >> M >> x;
   adj.resize(N + 1);
+  inverseAdj.resize(N + 1);
   for (int i = 0; i < M; i++) {
     int x, y, c;
     cin >> x >> y >> c;
-    adj[x].push_back({y,c});
+    adj[x].push_back({ y,c });
+    inverseAdj[y].push_back({ x,c });
   }
-  vector<int>sols(N+1,0);
-  for (int i = 1; i < N + 1; i++){
+  vector<int>sols(N + 1, 0);
+
+  dijkstra(x, 0 ,adj);
+
+  for (int i = 1; i < N + 1; i++) {
     // cout << "dijkstra start" << endl;
-    sols[i] = dijkstra(i, x);
+    sols[i] += cost[i];
   }
 
-  dijkstra(x, 0);
+  dijkstra(x, 0 ,inverseAdj);
 
   for (int i = 1; i < N + 1; i++) {
     sols[i] += cost[i];
@@ -75,7 +80,7 @@ int main() {
     ans = max(ans, sols[i]);
   }
 
-  cout << ans <<endl;
+  cout << ans << endl;
 
 
   return 0;
