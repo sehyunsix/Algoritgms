@@ -1,33 +1,39 @@
 #include <string>
 #include <vector>
-#include <unordered_set>
-#include <iostream>
 
 using namespace std;
 
-int solution(int N, int number) {
-    if (N == number) return 1;
-    
-    vector<unordered_set<int>> dp(9); // dp[i]: i개의 N을 사용하여 만들 수 있는 수 집합
-    
-    int num = 0;
-    for (int i = 1; i <= 8; i++) {
-        num = num * 10 + N; // N, NN, NNN, ... 생성
-        dp[i].insert(num);
+int minCnt = 9;
+
+void dp(int N, int number, int cnt, int now){
+    if(cnt > 8){
+        return;
     }
-    
-    for (int i = 1; i <= 8; i++) {
-        for (int j = 1; j < i; j++) {
-            for (int a : dp[j]) {
-                for (int b : dp[i - j]) {
-                    dp[i].insert(a + b);
-                    dp[i].insert(a - b);
-                    dp[i].insert(a * b);
-                    if (b != 0) dp[i].insert(a / b);
-                }
-            }
+
+    if(now == number){
+        minCnt = min(minCnt, cnt);
+    }
+
+    int operand = 0;
+
+    for(int i=1; i<=9; i++){
+        //5, 55, 555 만들기
+        operand = operand*10 + N; 
+
+        dp(N, number, cnt + i, now + operand);
+        dp(N, number, cnt + i, now - operand);
+
+        if(now != 0){
+            dp(N, number, cnt + i, now * operand);
+            dp(N, number, cnt + i, now / operand);
         }
-        if (dp[i].count(number)) return i;
     }
-    return -1;
+
+
+}
+int solution(int N, int number) {
+    int answer = 0;
+    dp(N, number, 0, 0);
+    answer = ((minCnt > 8) ? -1 : minCnt);
+    return answer;
 }
