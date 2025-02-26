@@ -28,10 +28,8 @@ int find(int st, int en) {
   int treeEnIndex = en - 1 + treeSize / 2;
   int res = INT32_MAX;
   int minIndex = INT32_MAX;
-  // cout << treeStIndex << " "<< treeEnIndex << endl;
   while (treeStIndex <= treeEnIndex) {
     if (treeStIndex % 2 == 1) {
-      // cout << "start : " << treeStIndex << endl;
       if (seg[treeStIndex] <= res) {
         int tmp = treeStIndex;
         while (tmp < (treeSize / 2)) {
@@ -39,22 +37,12 @@ int find(int st, int en) {
           int rightChild = tmp * 2 + 1;
           tmp = (seg[leftChild] <= seg[rightChild] ? leftChild : rightChild);
         }
-        if (res == seg[treeStIndex]) {
-          minIndex = min(minIndex, tmp);
-        }
-        else {
-          minIndex = tmp;
-        }
+        minIndex = (res == seg[treeStIndex] ? min(minIndex, tmp) : tmp);
         res = seg[treeStIndex];
-
       };
-      treeStIndex = (treeStIndex + 1) / 2;
-    }
-    else {
-      treeStIndex = treeStIndex / 2;
+      treeStIndex++;
     }
     if (treeEnIndex % 2 == 0) {
-      // cout << "end : " << treeEnIndex << endl;
       if (seg[treeEnIndex] <= res) {
         int tmp = treeEnIndex;
         while (tmp < (treeSize / 2)) {
@@ -62,21 +50,14 @@ int find(int st, int en) {
           int rightChild = tmp * 2 + 1;
           tmp = (seg[leftChild] <= seg[rightChild] ? leftChild : rightChild);
         }
-        if (res == seg[treeEnIndex]) {
-          minIndex = min(minIndex, tmp);
-        }
-        else {
-          minIndex = tmp;
-        }
+        minIndex = (res == seg[treeEnIndex] ? min(minIndex, tmp) : tmp);
         res = seg[treeEnIndex];
       }
-      treeEnIndex = (treeEnIndex - 1) / 2;
+      treeEnIndex--;
     }
-    else {
-      treeEnIndex = treeEnIndex / 2;
-    }
+    treeStIndex = treeStIndex / 2;
+    treeEnIndex = treeEnIndex / 2;
   }
-
 
   return minIndex+1 -(treeSize/2);
 
@@ -110,9 +91,5 @@ for (int j = 0; j < M;j++) {
   else if (x == 2) cout << find(y, z) << endl;
 }
 
-// for( int j =0 ; j<treeSize ;j++){
-//   cout << seg[j] << " ";
-// }
-// cout << endl;
 return 0;
 }
