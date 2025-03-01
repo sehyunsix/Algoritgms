@@ -85,7 +85,7 @@
     pos.erase(unique(pos.begin(), pos.end()), pos.end());
 
     int st = 1;
-    int en = L+1;
+    int en = L;
     while (st < en) {
       int mid = (st + en) / 2;
       if (query(mid)) en = mid;
@@ -94,7 +94,7 @@
     int ans1 = en;
 
     st = 0;
-    en = ans2+1;
+    en = ans2;
     while (st < en) {
       int mid = (st + en ) / 2;
       if (firstPosQuery(ans1 ,mid)) en =mid;
