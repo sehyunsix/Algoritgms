@@ -12,7 +12,7 @@
 #define maxP 1500
 using namespace std;
 int  C, N;
-int dp[21][maxP];
+int dp[maxP];
 int main() {
 cin.tie(0);
 cout.tie(0);
@@ -22,41 +22,31 @@ cin >> C >> N;
 
 vector<int>cost(N + 1, 0);
 vector<int>people(N + 1, 0);
+
 for (int i = 1;i <= N;i++) {
   cin >> cost[i] >> people[i];
 }
 
-for (int i = 0; i <= N; i++) {
-  for (int j = 0; j < maxP;j++) {
-    dp[i][j] = INT32_MAX;
-  }
+for (int j = 0; j < maxP;j++) {
+  dp[j] = INT32_MAX;
 }
 
-dp[0][0] = 0;
-for (int i = 1; i <= N; i++) {
-  for (int j = 0; j < maxP; j++) {
-    dp[i][j] = dp[i - 1][j];
-    int maxNum = j / people[i];
-    for (int k = 0; k <= maxNum;k++) {
-      if (dp[i - 1][j - k * people[i]] != INT32_MAX) {
-        dp[i][j] = min(dp[i][j], dp[i-1][j - k * people[i]] + k * cost[i]);
-        }
-      }
-  }
+
+dp[0] = 0;
+for (int j = 0; j < maxP; j++) {
+  for (int i = 1; i <= N;i++) {
+    if (j - people[i] < 0) continue;
+    if (dp[j - people[i]] == INT32_MAX) continue;
+    dp[j] = min(dp[j - people[i]] + cost[i], dp[j]);
+    }
 }
 
-// for (int i =0 ; i <= N;i++) {
-//   for (int j = 0; j < 10001; j++) {
-//     cout << dp[i][j] << " ";
-//   }
-//   cout << endl;
-// }
+
 
 int ans = INT32_MAX;
 for (int j = C; j < maxP; j++) {
-    ans = min(ans, dp[N][j]);
+    ans = min(ans, dp[j]);
 }
-
 cout << ans << endl;
 
 return 0;
